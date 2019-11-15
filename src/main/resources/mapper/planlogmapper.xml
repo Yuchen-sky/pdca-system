@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-->
+        PlanLog selectById(int id);
+        PlanLog selectByLevel(int thinglevel);
+        PlanLog selectByContent(String content);
+        PlanLog selectByUpdateDate(Date date);
+        PlanLog selectByUpdateDateNotFinish(Date date);
+        PlanLog selectByInitDate(Date date);
+        PlanLog selectByObject(String object);
+
+        int insertPlanLog(PlanLog planLog);
+        int updateUpdatetime(int id,int updatetime);
+        int updateWeight(int id,int weight);
+        int updateDelay(int id,int weight);
+        int updateFinish(int id,int finish);
+
+         "id=" + id +
+                ", thinglevel=" + thinglevel +
+                ", object='" + object + '\'' +
+                ", content='" + content + '\'' +
+                ", comment='" + comment + '\'' +
+                ", weight=" + weight +
+                ", finish=" + finish +
+                ", delay=" + delay +
+                ", initdate=" + initdate +
+                ", updatedate=" + updatedate +
+                ", generatetime=" + generatetime +
+                ", updatetime=" + updatetime +
+<!-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.pdcasystem.pdcasystem.Dao.PlanLogMapper">
+    <sql id="insertFields">thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime</sql>
+    <select id="selectById" resultType="PlanLog">
+    select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where id = #{id}
+  </select>
+    <select id="selectByLevel" resultType="PlanLog">
+    select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where thinglevel = #{thinglevel}
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+        order by updatedate desc, thinglevel desc, weight desc
+  </select>
+    <select id="selectByContent" resultType="PlanLog">
+    select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where object  LIKE '%#{object}%'
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+        order by updatedate desc, thinglevel desc, weight desc
+  </select>
+    <select id="selectByUpdateDate" resultType="PlanLog">
+    select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where updatedate = #{date}
+
+        order by finish, thinglevel desc, weight desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+  </select>
+    <select id="selectByUpdateDateNotFinish" resultType="PlanLog">
+    select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where  updatedate = #{updatedate} AND finish = 0
+        order by updatedate desc, thinglevel desc, weight desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+
+  </select>
+    <select id="selectByNotFinish" resultType="PlanLog">
+        select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where finish = 0
+        order by updatedate desc, thinglevel desc, weight desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+
+    </select>
+    <select id="selectByInitDate" resultType="PlanLog">
+    select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where  initdate = #{initdate}
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+        order by updatedate desc, thinglevel desc, weight desc
+  </select>
+    <select id="selectByObject" resultType="PlanLog">
+    select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where object  LIKE '%#{object}%'
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+        order by updatedate desc, thinglevel desc, weight desc
+  </select>
+
+
+    <insert id="insertPlanLog" parameterType="PlanLog" keyProperty="id">
+    insert into planlog ( <include refid="insertFields"></include> ) values (#{thinglevel},#{object},#{content},#{comment},#{weight},#{finish}, #{delay}, #{initdate}, #{updatedate}, unix_timestamp(now()),unix_timestamp(now()))
+    </insert>
+    <update id="updateUpdatetime">
+        update planlog set updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateFinish">
+        update planlog set finish=#{finish}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateDelay">
+        update planlog set delay=delay + #{delay}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateWeight">
+        update planlog set weight=#{weight}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateUpdateDate">
+        update planlog set updatedate=#{updatedate}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateComment">
+        update planlog set comment=#{comment}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+</mapper>
