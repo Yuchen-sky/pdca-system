@@ -37,4 +37,4 @@ spring.mail.properties.mail.smtp.ssl.enable=true
 # pdcasystem
 pdcasystem.path.domain=
 pdcasystem.path.upload=
-pdcasystem.auth.user=yuchen
+pdcasystem.auth.user=
