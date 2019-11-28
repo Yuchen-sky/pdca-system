@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-->
+         //@param 给注解取别名的如果只有一个参数，在if，则必须用别名
+    Habit selectById(int id);
+    List<Habit> selectByRealUsing( int offset, int limit);
+    List<Habit> selectByStatus(Date updatedate,int offset,int limit);
+    List<Habit> selectOrderByGenerateTime(int offset,int limit);
+    List<Habit> selectOrderByUpdateTime(int offset,int limit);
+
+    int insertHabit(Habit habit);
+
+    int updateUpdatetime(int id,int updatetime);
+    int updateWeight(int id,int weight);
+    int updateFinish(int id,int finish);
+    int updateContent(int id,String content);
+    int updateComment(int id,String comment);
+    int updateStatus(int id, int status);
+    int resetPeriod(int id);
+    int updateTotal(int id);
+    int updateFinish(int id);
+        private int id;
+    private String typed;
+    private String object;
+    private String content;
+    private String comment;
+    private int status;
+    private int generatetime;
+    private int updatetime;
+    private String timeset;
+    private int weight;
+    private int total;
+    private int totalfinish;
+    private int newtotal;
+    private int newfinish;
+<!-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.pdcasystem.pdcasystem.Dao.HabitMapper">
+    <sql id="insertFields">typed,object,content,comment,status,generatetime, updatetime, timeset, weight, total, totalfinish, newtotal, newfinish</sql>
+    <select id="selectById" resultType="Habit">
+    select id,typed,object,content,comment,status,generatetime, updatetime, timeset, weight, total, totalfinish, newtotal, newfinish from habit where id = #{id}
+  </select>
+    <select id="selectByObject" resultType="Habit">
+    select id,typed,object,content,comment,status,generatetime, updatetime, timeset, weight, total, totalfinish, newtotal, newfinish from habit where object = #{object}
+  </select>
+    <select id="selectByStatus" resultType="Habit">
+        select id,typed,object,content,comment,status,generatetime, updatetime, timeset, weight, total, totalfinish, newtotal, newfinish from habit where status = #{status}
+        order by weight desc, total desc,updatetime desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+
+    </select>
+
+
+
+    <insert id="insertHabit" parameterType="Habit" keyProperty="id">
+        insert into habit ( <include refid="insertFields"></include> ) values (#{typed},#{object},#{content},#{comment},#{status},unix_timestamp(now()), unix_timestamp(now()), #{timeset}, #{weight}, #{total},  #{totalfinish}, #{newtotal}, #{newfinish})
+    </insert>
+
+    <update id="updateUpdatetime">
+        update habit set updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+    <update id="updateStatus">
+        update habit set status=#{status}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+    <update id="updateAll">
+        update habit set typed=#{typed},object=#{object},content=#{content},comment=#{comment},status=#{status},timeset=#{timeset},weight=#{weight},total=#{total},totalfinish=#{totalfinish},newtotal=#{newtotal},newfinish=#{newfinish}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+    <update id="updateTotal">
+        update habit set total=total + #{total}, newtotal=newtotal + #{newtotal},updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateFinish">
+        update habit set totalfinish=totalfinish + #{totalfinish}, newfinish=newfinish + #{newfinish},updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+
+    <update id="updateComment">
+        update habit set comment=#{comment}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+</mapper>

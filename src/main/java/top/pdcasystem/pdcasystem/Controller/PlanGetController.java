@@ -38,11 +38,44 @@ public class PlanGetController {
         return "planlog";
     }
 
-
     @RequestMapping(path="/getnotfinishplan",method = RequestMethod.GET)
     public  String getNotFinishPlan(Model model){
 
         List<PlanLog> planLogs=planPostService.selectByNotFinish(0,50);
+        List<Map<String,Object>> post=new ArrayList<>();
+        if(planLogs!=null){
+            for(PlanLog a:planLogs){
+                Map<String,Object> map=new HashMap<>();
+                map.put("planlog",a);
+                post.add(map);
+            }
+
+        }
+        model.addAttribute("planPost",post);
+        return "planlog";
+    }
+
+    @RequestMapping(path="/gethistorybygenerate",method = RequestMethod.GET)
+    public  String getHistoryPlan(Model model){
+
+        List<PlanLog> planLogs=planPostService.selectOrderByGenerateTime(0,50);
+        List<Map<String,Object>> post=new ArrayList<>();
+        if(planLogs!=null){
+            for(PlanLog a:planLogs){
+                Map<String,Object> map=new HashMap<>();
+                map.put("planlog",a);
+                post.add(map);
+            }
+
+        }
+        model.addAttribute("planPost",post);
+        return "planlog";
+    }
+
+    @RequestMapping(path="/gethistorybyupdate",method = RequestMethod.GET)
+    public  String getHistoryPlan2(Model model){
+
+        List<PlanLog> planLogs=planPostService.selectOrderByUpdateTime(0,50);
         List<Map<String,Object>> post=new ArrayList<>();
         if(planLogs!=null){
             for(PlanLog a:planLogs){

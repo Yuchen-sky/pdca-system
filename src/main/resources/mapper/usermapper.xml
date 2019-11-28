@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-->
+  User selectById(int id);
+    User selectByName(String username);
+    User selectByEmail(String email);
+
+    int insertUser(User user);
+    int updateStatus(int id, int status);
+    int updateHeader(int id, String headerUrl);
+    int updatePassword(int id, String password);
+    int updateLoginTime(int id, int updateTime);
+    id, username, email, password, salt, types, status, activationcode, headerurl, createtime, lastlogintime
+<!-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.pdcasystem.pdcasystem.Dao.UserMapper">
+    <sql id="insertFields">id, username, email, password, salt, types, status, activationcode, headerurl, createtime, lastlogintime</sql>
+    <select id="selectById" resultType="User">
+    select id, username, email, password, salt, types, status, activationcode, headerurl, createtime, lastlogintime from user where id = #{id}
+  </select>
+    <select id="selectByName" resultType="User">
+        select id, username, email, password, salt, types, status, activationcode, headerurl, createtime, lastlogintime from user where username = #{username}
+    </select>
+    <select id="selectByEmail" resultType="User">
+        select id, username, email, password, salt, types, status, activationcode, headerurl, createtime, lastlogintime from user where email = #{email}
+    </select>
+
+    <insert id="insertUser" parameterType="User" keyProperty="id">
+        insert into user ( <include refid="insertFields"></include> ) values (#{id},#{username},#{email},#{password},#{salt},#{types}, #{status}, #{activationCode}, #{headerUrl}, unix_timestamp(now()),unix_timestamp(now()))
+    </insert>
+    <update id="updateStatus">
+        update user set status=#{status}, lastlogintime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateHeader">
+        update user set headerurl=#{headerUrl}, lastlogintime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updatePassword">
+        update user set password=#{password}, lastlogintime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateLoginTime">
+        update user set lastlogintime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+</mapper>

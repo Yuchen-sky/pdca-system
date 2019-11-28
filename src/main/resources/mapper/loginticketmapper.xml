@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-->
+    LoginTicket selectById(int id);
+    LoginTicket selectByTicket(String ticket);
+    LoginTicket selectByUserId(String email);
+
+    int insertTicket(LoginTicket loginTicket);
+    int updateExpireById(int id, int expire);
+    int updateExpire(String ticket, int expire);
+    int updateStatus(String ticket, int status);
+    id, ticket, userid, status, expire
+<!-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.pdcasystem.pdcasystem.Dao.LoginTicketMapper">
+    <sql id="insertFields">id, ticket, userid, status, expire</sql>
+    <select id="selectById" resultType="LoginTicket">
+    select id, ticket, userid, status, expire from loginticket where id = #{id}
+  </select>
+    <select id="selectByTicket" resultType="LoginTicket">
+        select id, ticket, userid, status, expire from loginticket where ticket = #{ticket}
+    </select>
+    <select id="selectByUserId" resultType="LoginTicket">
+        select id, ticket, userid, status, expire from loginticket where userid = #{userid}
+    </select>
+
+    <insert id="insertTicket" parameterType="LoginTicket" keyProperty="id">
+        insert into loginticket ( <include refid="insertFields"></include> ) values (#{id},#{ticket},#{userid},#{status},#{expire})
+    </insert>
+    <update id="updateTicket">
+        update loginticket set ticket=#{ticket} where userid=#{userid}
+    </update>
+    <update id="updateExpireById">
+        update loginticket set expire=#{expire} where id=#{id}
+    </update>
+    <update id="updateExpire">
+        update loginticket set expire=#{expire}, status=0 where ticket=#{ticket}
+    </update>
+    <update id="updateStatus">
+        update loginticket set status=#{status} where ticket=#{ticket}
+    </update>
+
+</mapper>

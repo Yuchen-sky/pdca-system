@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-->
+         //@param 给注解取别名的如果只有一个参数，在if，则必须用别名
+    private int id;
+    private String typed;
+    private String object;
+    private String content;
+    private String comment;
+    private int weight;
+    private int finish;
+    private int generatetime;
+    private int updatetime;
+      HabitLog selectById(int id);
+    List<HabitLog> selectByNotFinish(int offset,int limit);
+    List<HabitLog> selectOrderByGenerateTime(int offset,int limit);
+
+    int insertHabitLog(HabitLog habitLog);
+
+    int updateUpdatetime(int id,int updatetime);
+    int updateFinish(int id,int finish);
+    int updateComment(int id,String comment);
+<!-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.pdcasystem.pdcasystem.Dao.HabitLogMapper">
+    <sql id="insertFields">typed,object,content,comment,weight,finish,generatetime, updatetime, habitid</sql>
+    <select id="selectById" resultType="HabitLog">
+    select id,typed,object,content,comment,weight,finish,generatetime, updatetime , habitid from habitlog where id = #{id}
+  </select>
+    <select id="selectByObject" resultType="HabitLog">
+        select id,typed,object,content,comment,weight,finish,generatetime, updatetime , habitid from habitlog where object=#{object} and finish=0
+        order by generatetime asc limit 1
+
+    </select>
+    <select id="selectOrderByGenerateTime" resultType="HabitLog">
+        select id,typed,object,content,comment,weight,finish,generatetime, updatetime , habitid from habitlog
+        order by generatetime desc, weight desc,  updatetime desc,finish asc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+
+    </select>
+    <select id="selectByNotFinish" resultType="HabitLog">
+        select id,typed,object,content,comment,weight,finish,generatetime, updatetime , habitid from habitlog where finish = #{finish}
+        order by generatetime desc, weight desc,  updatetime desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+
+    </select>
+
+
+
+    <insert id="insertHabitLog" parameterType="HabitLog" keyProperty="id">
+        insert into habitlog ( <include refid="insertFields"></include> ) values (#{typed},#{object},#{content},#{comment},#{weight},#{finish},unix_timestamp(now()), unix_timestamp(now()), #{habitid})
+    </insert>
+
+    <update id="updateUpdatetime">
+        update habitlog set updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+    <update id="updateFinish">
+        update habitlog set finish=#{finish},updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+
+    <update id="updateComment">
+        update habitlog set comment=#{comment}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+</mapper>

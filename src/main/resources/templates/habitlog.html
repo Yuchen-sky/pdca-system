@@ -54,7 +54,7 @@
 
 	<div id="page">
 		<nav class="colorlib-nav" role="navigation">
-			<div class="top-menu" th:fragment="ReadHeaderNavi">
+			<div class="top-menu" th:replace="planlog::ReadHeaderNavi">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-2">
@@ -64,8 +64,6 @@
 							<ul>
 								<li><a href="/getplan">ReadPlan</a></li>
 								<li><a href="/getsetplan">WritePlan</a></li>
-								<li><a href="/gethabit">ReadHabit</a></li>
-								<li><a href="/getnotfinishhabitlog">ReadHabitDo</a></li>
 							</ul>
 						</div>
 					</div>
@@ -80,8 +78,8 @@
 					<div class="container">
 						<div class="col-md-12 col-md-offset-0">
 							<div class="animate-box">
-								<h2>YuchenPlan</h2>
-								<p class="breadcrumbs"><span><a href="/getsetplan">Write</a></span> <span>Read</span></p>
+								<h2>YuchenHabit</h2>
+								<p class="breadcrumbs"><span><a href="/getsethabit">Write</a></span> <span><a href="/gethabit">Read</a></span></p>
 							</div>
 						</div>
 					</div>
@@ -94,11 +92,11 @@
 			<div class="col-md-6 col-md-offset-3">
 				<div class="row">
 					<div class="col-md-12">
-						<form method="post" action="/setfinish" class="form-inline qbstp-header-subscribe">
+						<form method="post" action="/sethabitfinish" class="form-inline qbstp-header-subscribe">
 
 							<div class="col-three-forth">
 								<div class="form-group">
-									<input type="text" class="form-control" name="planid" placeholder="请输入已完成的ID">
+									<input type="text" class="form-control" name="id" placeholder="请输入已完成的ID">
 								</div>
 							</div>
 							<div class="col-one-third">
@@ -114,36 +112,15 @@
 		</div>
 		</div>
 		</div>
-
-		<div class="colorlib-blog">
-			<div class="container">
-
-				<div class="row" >
-					<div class="col-md-4 animate-box" th:each="map:${planPost}">
-						<article>
-							<h2><a href="#" th:utext="${map.planlog.object}"></a></h2>
-
-							<strong><p class="admin" ><span >  &nbsp;ID &nbsp; </span><span th:utext="${map.planlog.id}"></span><span >  &nbsp;等级 &nbsp; </span><span th:utext="${map.planlog.level}"></span><span > &nbsp;权重 &nbsp; </span><span th:utext="${map.planlog.weight}"></span></p>
-							<p th:utext="${map.planlog.content}"></p></strong>
-							<p th:utext="${map.planlog.comment}" th:if="${map.planlog.comment!=''}"></p>
-							<p class="author-wrap"><a href="#" class="author-img"  th:if="${map.planlog.finish!=1 and map.planlog.finish!=2}" style="background-image: url(/images/red.jpg);"></a><a href="#" class="author-img"  th:if="${map.planlog.finish==1 or map.planlog.finish==2}" style="background-image: url(/images/green.jpg);"></a> <a href="#" class="author" th:if="${map.planlog.finish==1}"><strong>已完成</strong></a><a href="#" class="author" th:if="${map.planlog.finish==2}"><strong>局部完成</strong></a><a href="#" class="author" th:if="${map.planlog.finish==0}"><strong>未完成</strong></a><a href="#" class="author" th:if="${map.planlog.finish==3}"><strong>已取消</strong></a><a href="#" class="author" th:if="${map.planlog.finish==4}"><strong>放弃</strong></a><a href="#" class="author" th:if="${map.planlog.delay==1}"><strong>已延迟</strong></a></p>
-							<p class="admin" ><span > 最新日期 </span><span th:utext="${map.planlog.updatedate}">May 12, 2018</span></p>
-							<p class="admin" ><span > 初始日期 </span><span th:utext="${map.planlog.initdate}">May 12, 2018</span></p>
-						</article>
-					</div>
-				</div>
-
-			</div>
-		</div>
 		<div class="container">
 			<div class="row animate-box">
 				<div class="col-md-6 col-md-offset-3" >
 					<div class="row">
 						<div class="col-md-12" style="padding-bottom:1cm;">
-							<form method="post" action="/setfinishstate" class="form-inline qbstp-header-subscribe">
+							<form method="post" action="/sethabitfinishstate" class="form-inline qbstp-header-subscribe">
 								<div class="col-three-forth">
 									<div class="form-group">
-										<input type="text" class="form-control" name="planid" placeholder="请输入处理的ID">
+										<input type="text" class="form-control" name="id" placeholder="请输入处理的ID">
 									</div>
 								</div>
 								<div class="col-three-forth">
@@ -167,26 +144,34 @@
 
 
 
-						<div class="col-md-12" style="padding-bottom:1cm;" >
-							<form method="post" action="/setdelay" class="form-inline qbstp-header-subscribe">
-								<div class="col-three-forth">
-									<div class="form-group">
-										<input type="text" class="form-control" name="planid" placeholder="请输入延期的ID，0则为全部">
-									</div>
-								</div>
-								<div class="col-one-third">
-									<div class="form-group">
-										<button type="submit" class="btn btn-primary">一键延期</button>
-									</div>
-								</div>
-							</form>
-						</div>
+
 
 					</div>
 				</div>
 			</div>
 		</div>
-		<footer id="colorlib-footer" th:fragment="ReadFooterNavi">
+		<div class="colorlib-blog">
+			<div class="container">
+
+				<div class="row" >
+					<div class="col-md-4 animate-box" th:each="map:${Post}">
+						<article>
+							<h2><a href="#" th:utext="${map.habitlog.object}"></a></h2>
+
+							<strong><p class="admin" ><span >  &nbsp;ID &nbsp; </span><span th:utext="${map.habitlog.id}"></span><span >  &nbsp;</span><span th:utext="${map.habitlog.typed}"></span><span > &nbsp;权重&nbsp;</span><span th:utext="${map.habitlog.weight}"></span></p>
+							<p th:utext="${map.habitlog.content}"></p></strong>
+							<p th:utext="${map.habitlog.comment}" th:if="${map.habitlog.comment!=''}"></p>
+							<p class="author-wrap"><a href="#" class="author-img"  th:if="${map.habitlog.finish!=1 and map.habitlog.finish!=2}" style="background-image: url(/images/red.jpg);"></a><a href="#" class="author-img"  th:if="${map.habitlog.finish==1 or map.habitlog.finish==2}" style="background-image: url(/images/green.jpg);"></a> <a href="#" class="author" th:if="${map.habitlog.finish==1}"><strong>已完成</strong></a><a href="#" class="author" th:if="${map.habitlog.finish==2}"><strong>局部完成</strong></a><a href="#" class="author" th:if="${map.habitlog.finish==0}"><strong>未完成</strong></a><a href="#" class="author" th:if="${map.habitlog.finish==3}"><strong>已取消</strong></a><a href="#" class="author" th:if="${map.habitlog.finish==4}"><strong>放弃</strong></a></p>
+							<p class="admin" ><span > 最新日期 </span><span th:utext="${map.update}">May 12, 2018</span></p>
+							<p class="admin" ><span > 布置日期 </span><span th:utext="${map.gendate}">May 12, 2018</span></p>
+						</article>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<footer id="colorlib-footer" th:replace="planlog::ReadFooterNavi">
 			<div class="container">
 				<div class="row row-pb-md">
 					<div class="col-md-3 colorlib-widget">

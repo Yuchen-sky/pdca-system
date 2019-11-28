@@ -54,7 +54,7 @@
 
 	<div id="page">
 		<nav class="colorlib-nav" role="navigation">
-			<div class="top-menu"  th:replace="planlog::ReadHeaderNavi">
+			<div class="top-menu">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-2">
@@ -80,7 +80,7 @@
 						<div class="col-md-12 col-md-offset-0">
 							<div class="animate-box">
 								<h2>YuchenPlan</h2>
-								<p class="breadcrumbs"><span><a href="/getsetplan">Write</a></span> <span>Read</span></p>
+								<p class="breadcrumbs"><span><a href="/getplan">Read</a></span> <span>Write</span></p>
 							</div>
 						</div>
 					</div>
@@ -94,8 +94,9 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-10 col-md-offset-1 text-center colorlib-heading animate-box">
-						<h2>哈哈恭喜成功</h2>
-						<a href="/getplan"><p>检阅目前进展</p></a>
+						<h2>邮箱验证</h2>
+						<h2 th:text="${msg}">哈哈恭喜注册成功</h2>
+
 					</div>
 				</div>
 			</div>

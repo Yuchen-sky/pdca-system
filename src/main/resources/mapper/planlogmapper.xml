@@ -88,6 +88,26 @@
         </if>
 
     </select>
+    <select id="selectOrderByUpdateTime" resultType="PlanLog">
+        select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog
+        order by updatetime desc, thinglevel desc, weight desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+    </select>
+    <select id="selectOrderByGenerateTime" resultType="PlanLog">
+        select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog
+        order by generatetime desc, thinglevel desc, weight desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+    </select>
     <select id="selectByInitDate" resultType="PlanLog">
     select id,thinglevel,object,content,comment,weight,finish, delay, initdate, updatedate, generatetime, updatetime from planlog where  initdate = #{initdate}
         <if test="limit!=0">

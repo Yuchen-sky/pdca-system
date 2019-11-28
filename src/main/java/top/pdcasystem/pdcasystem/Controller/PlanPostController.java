@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.pdcasystem.pdcasystem.Entity.PlanLog;
 import top.pdcasystem.pdcasystem.Service.PlanPostService;
+import top.pdcasystem.pdcasystem.annotation.LoginRequired;
 
 import java.sql.Date;
 import java.util.*;
@@ -17,13 +18,12 @@ public class PlanPostController {
     @Autowired
     private PlanPostService planPostService;
 
-
-
     @RequestMapping(path="/getsetplan",method = RequestMethod.GET)
     public  String getsetPlan(){
         return "planlogWrite";
     }
 
+    @LoginRequired
     @RequestMapping(path="/setplan",method = RequestMethod.POST)
     public String getplan(
             Model model, int thinglevel ,String object,String content,String comment,int weight
@@ -42,6 +42,7 @@ public class PlanPostController {
         return "planlogResponse";
     }
 
+    @LoginRequired
     @RequestMapping(path="/setfinish",method = RequestMethod.POST)
     public String setfinish(
             Model model, int planid
@@ -51,6 +52,7 @@ public class PlanPostController {
         return "planlogResponse";
     }
 
+    @LoginRequired
     @RequestMapping(path="/setfinishstate",method = RequestMethod.POST)
     public String setfinish(
             Model model, int planid,int finish,String comment
@@ -65,6 +67,7 @@ public class PlanPostController {
         return "planlogResponse";
     }
 
+    @LoginRequired
     @RequestMapping(path="/setdelay",method = RequestMethod.POST)
     public String setdelay(
             Model model, int planid

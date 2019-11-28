@@ -58,7 +58,7 @@
         </div>
       </div>
       <!-- Sidebar Menu -->
-      <nav class="mt-2" th:fragment="WriteSideNavi">
+      <nav class="mt-2" th:replace="planlogWrite::WriteSideNavi">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -76,83 +76,12 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">
+            <a href="/getnotfinishplan" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
-              <p>记录浏览修改</p>
+              <p>未完成情况浏览</p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/getnotfinishplan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>未完成情况浏览</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/gethistorybyupdate" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>获取最近更新计划</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/gethistorybygenerate" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>获取最近生成计划</p>
-                </a>
-              </li>
-            </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>习惯中心</p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/getnotfinishhabitlog" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>获取需完成养成</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/gethabitlog" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>获取最近养成</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/gethabit" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>查看习惯</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/getsethabit" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>录入习惯</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>用户中心</p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/login" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>登录</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/register" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>注册</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+
          
         </ul>
       </nav>
@@ -168,7 +97,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>输入计划</h1>
+            <h1>注册信息</h1>
           </div>
           <div class="col-sm-6">
             
@@ -184,33 +113,32 @@
           <!-- left column -->
           <div class="col-md-6">
             <!-- general form elements -->
-            <div class="card card-primary">
+            <div class="card card-warning">
               <div class="card-header">
-                <h3 class="card-title">具体新计划内容</h3>
+                <h3 class="card-title">请输入注册内容</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" method="post" action="/setplan">
+              <form role="form" method="post" action="/register">
                 <div class="card-body">
                   <div class="form-group">
-                    <label >等级</label>
-                    <input class="form-control" name="thinglevel" placeholder="输入等级">
+                    <label >账号</label>
+                    <input class="form-control" name="username" placeholder="账号" th:value="${user!=null?user.username:''}">
+                    <div th:text="${usernamemsg}"></div>
                   </div>
                   <div class="form-group">
-                  <label >对象</label>
-                  <input class="form-control" type="text"  name="object" placeholder="输入对象">
+                  <label >密码</label>
+                  <input class="form-control" type="text"  name="password" placeholder="密码" th:value="${user!=null?user.password:''}">
+                    <div th:text="${passwordmsg}"></div>
                 </div>
                   <div class="form-group">
-                    <label >内容</label>
-                    <input class="form-control" type="text"  name="content" placeholder="输入内容">
+                    <label >邮箱</label>
+                    <input class="form-control" type="text"  name="email" placeholder="邮箱" th:value="${user!=null?user.email:''}">
+                    <div th:text="${emailmsg}"></div>
                   </div>
                   <div class="form-group">
-                      <label>评论</label>
-                      <textarea class="form-control" type="text"  rows="3"  name="comment"  placeholder="Enter ..."></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label >权重</label>
-                    <input class="form-control"  type="text" name="weight"  placeholder="输入权重">
+                      <label>确认密码</label>
+                      <input class="form-control" type="text"   name="repassword" th:value="${user!=null?user.password:''}" placeholder="Enter ..."></input>
                   </div>
 
                 </div>
@@ -231,8 +159,8 @@
           <!--/.col (left) -->
           <!-- right column -->
           <div class="col-md-6">
+
             <!--
-           ]
             <div class="card card-warning">
               <div class="card-header">
                 <h3 class="card-title">General Elements</h3>

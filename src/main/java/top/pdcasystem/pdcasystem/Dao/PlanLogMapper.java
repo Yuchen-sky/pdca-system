@@ -17,6 +17,9 @@ public interface PlanLogMapper {
     List<PlanLog> selectByNotFinish(int offset,int limit);
     List<PlanLog> selectByInitDate(Date date,int offset,int limit);
     List<PlanLog> selectByObject(String object,int offset,int limit);
+    List<PlanLog> selectOrderByGenerateTime(int offset,int limit);
+    List<PlanLog> selectOrderByUpdateTime(int offset,int limit);
+
 
     int insertPlanLog(PlanLog planLog);
 

@@ -45,6 +45,14 @@ public class PlanPostService {
         return planLogMapper.selectByObject(object,offset,limit);
     }
 
+    public List<PlanLog> selectOrderByGenerateTime(int offset,int limit){
+        return planLogMapper.selectOrderByGenerateTime(offset, limit);
+    }
+
+    public List<PlanLog> selectOrderByUpdateTime(int offset,int limit){
+        return planLogMapper.selectOrderByUpdateTime(offset, limit);
+    }
+
     public int insertPlanLog(PlanLog planLog){
         return planLogMapper.insertPlanLog(planLog);
     }
@@ -64,5 +72,7 @@ public class PlanPostService {
     public int updateUpdateDate(int id,Date date){
         return planLogMapper.updateUpdateDate(id,date);
     }
+
+
 
 }

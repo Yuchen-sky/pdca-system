@@ -58,7 +58,7 @@
         </div>
       </div>
       <!-- Sidebar Menu -->
-      <nav class="mt-2" th:fragment="WriteSideNavi">
+      <nav class="mt-2" th:replace="planlogWrite::WriteSideNavi">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -97,38 +97,6 @@
                 <a href="/gethistorybygenerate" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>获取最近生成计划</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>习惯中心</p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/getnotfinishhabitlog" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>获取需完成养成</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/gethabitlog" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>获取最近养成</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/gethabit" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>查看习惯</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/getsethabit" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>录入习惯</p>
                 </a>
               </li>
             </ul>
@@ -184,24 +152,24 @@
           <!-- left column -->
           <div class="col-md-6">
             <!-- general form elements -->
-            <div class="card card-primary">
+            <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">具体新计划内容</h3>
+                <h3 class="card-title">输入新习惯</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" method="post" action="/setplan">
+              <form role="form" method="post" action="/sethabit">
                 <div class="card-body">
                   <div class="form-group">
-                    <label >等级</label>
-                    <input class="form-control" name="thinglevel" placeholder="输入等级">
+                    <label >类型</label>
+                    <input class="form-control" name="typed" placeholder="输入类型">
                   </div>
                   <div class="form-group">
-                  <label >对象</label>
+                  <label >习惯对象</label>
                   <input class="form-control" type="text"  name="object" placeholder="输入对象">
                 </div>
                   <div class="form-group">
-                    <label >内容</label>
+                    <label >习惯具体内容</label>
                     <input class="form-control" type="text"  name="content" placeholder="输入内容">
                   </div>
                   <div class="form-group">
@@ -209,8 +177,16 @@
                       <textarea class="form-control" type="text"  rows="3"  name="comment"  placeholder="Enter ..."></textarea>
                   </div>
                   <div class="form-group">
+                    <label >时间生成</label>
+                    <input class="form-control"  type="text" name="timeset"  placeholder="输入时间频率">
+                  </div>
+                  <div class="form-group">
                     <label >权重</label>
-                    <input class="form-control"  type="text" name="weight"  placeholder="输入权重">
+                    <input class="form-control"  type="text" name="weight"  placeholder="输入权重" value="0">
+                  </div>
+                  <div class="form-group">
+                    <label >状态</label>
+                    <input class="form-control"  type="text" name="status"  placeholder="输入状态" value="0">
                   </div>
 
                 </div>
