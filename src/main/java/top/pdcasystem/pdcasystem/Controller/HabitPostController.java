@@ -3,6 +3,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import top.pdcasystem.pdcasystem.Entity.Habit;
@@ -124,5 +125,18 @@ public class HabitPostController {
             }
         }
         return "habitResponse";
+    }
+
+
+
+    @LoginRequired
+    @RequestMapping(path="/sethabitlogfinishbyid/{habitlogid}",method = RequestMethod.GET)
+    public String setHabitFinish(
+            Model model,@PathVariable("habitlogid")  int id
+    ){
+            habitService.updateFinish(id,1);
+            HabitLog habitLog = habitService.selecthabitlogById(id);
+            habitService.updateHabitFinishNum(habitLog.getHabitid(), 1, 1);
+            return "habitResponse";
     }
 }

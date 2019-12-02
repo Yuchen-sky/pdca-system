@@ -16,6 +16,7 @@ public class TimeTask {
     @Autowired
     HabitService habitService;
 
+    //@Scheduled(cron = "0 * * * * *")
     @Scheduled(cron = "0 0 0 * * *")
     public void autoGennaratePlan(){
         logger.debug("执行定时任务" + new Date().toString());

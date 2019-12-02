@@ -64,7 +64,7 @@ public class HabitService {
     }
 
     public void generateHabitLog( int timenow){
-        List<Habit> habits=selectByStatus(0,0,500);
+        List<Habit> habits = selectByStatus(0,0,500);
         for (Habit a : habits) {
             int circle = 0;
             circle = Integer.parseInt(a.getTimeset());
@@ -74,8 +74,10 @@ public class HabitService {
                    HabitLog habitLog = produceHabit(a);
                    habitLogMapper.insertHabitLog(habitLog);
                    habitMapper.updateTotal(a.getId(), 1, 1);
+                   continue;
                }
-               return;
+                System.out.println("problem");
+               continue;
             }
             HabitLog habitLog = produceHabit(a);
             habitLogMapper.insertHabitLog(habitLog);
