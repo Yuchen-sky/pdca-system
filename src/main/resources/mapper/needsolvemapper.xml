@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-->
+    private int id;
+    private String object;
+    private String content;
+    private String comment;
+    private int weight;
+    private int afraid;
+    private int finish;
+    private int delay;
+    private int linkid;
+    private String linktype;
+    private int golevel;
+    private int tempdeadline;
+    private int deadline;
+    private int updatetime;
+    private int generatetime;
+    
+        int insertNeedSolve(NeedSolve needSolve);
+    List<NeedSolve> selectNeedSolve(int offset, int limit);
+    List<NeedSolve> selectNeedSolveNotFinish(int offset, int limit);
+    NeedSolve selectNeedSolveByid(int i);
+    int updateAll(NeedSolve needSolve);
+    int updateFinish(int id, int finish, int golevel, int comment, int tempdeadline);
+    int updateDelay(int id, int delay, int golevel,int comment, int tempdeadline);
+<!-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.pdcasystem.pdcasystem.Dao.NeedSolveMapper">
+    <sql id="insertFields">object,content,comment,weight,afraid, finish, delay,   golevel, tempdeadline, deadline, updatetime, generatetime </sql>
+    <select id="selectNeedSolveByid" resultType="NeedSolve">
+    select id,object,content,comment,weight,afraid, finish, delay,   golevel, tempdeadline, deadline, updatetime, generatetime from needsolve where id = #{id}
+  </select>
+    <select id="selectNeedSolve" resultType="NeedSolve">
+        select id,object,content,comment,weight,afraid, finish, delay,   golevel, tempdeadline, deadline, updatetime, generatetime from needsolve 
+        order by    updatetime desc, generatetime desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+
+    </select>
+    <select id="selectNeedSolveNotFinish" resultType="NeedSolve">
+        select id,object,content,comment,weight,afraid, finish, delay,   golevel, tempdeadline, deadline, updatetime, generatetime from needsolve where finish = #{finish1} OR finish = #{finish2}
+        order by tempdeadline asc, weight desc, afraid desc,  updatetime desc
+        <if test="limit!=0">
+            limit #{limit}
+        </if>
+        <if test="offset!=0">
+            offset #{offset}
+        </if>
+
+    </select>
+
+
+    <insert id="insertNeedSolve" parameterType="NeedSolve" keyProperty="id">
+        insert into needsolve ( <include refid="insertFields"></include> ) values (#{object},#{content},#{comment},#{weight},#{afraid},#{finish},#{delay},#{golevel},#{tempdeadline},#{deadline},unix_timestamp(now()), unix_timestamp(now()))
+    </insert>
+
+    <update id="updateAll" parameterType="NeedSolve">
+        update needsolve set object = #{object},content = #{content},comment = #{comment},weight = #{weight},afraid = #{afraid},finish = #{finish},delay = #{delay},golevel = #{golevel},tempdeadline = #{tempdeadline},deadline = #{deadline}, updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+    <update id="updateFinish">
+        update needsolve set finish = #{finish}, golevel=#{golevel},comment = #{comment},tempdeadline = #{tempdeadline},updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateDelay">
+        update needsolve set delay = #{delay}, golevel=#{golevel},comment = #{comment},tempdeadline = #{tempdeadline},updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+
+
+    <update id="updateFinishIt">
+        update needsolve set finish = #{finish}, golevel = 100 ,updatetime=unix_timestamp(now()) where id=#{id}
+    </update>
+    <update id="updateTempdeadline">
+        update needsolve set tempdeadline = tempdeadline - 1, deadline = deadline - 1 where finish = #{finish1} OR finish = #{finish2}
+    </update>
+</mapper>

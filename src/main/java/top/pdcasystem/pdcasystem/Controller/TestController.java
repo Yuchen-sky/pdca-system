@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -192,4 +193,17 @@ public class TestController {
 
     }
 
+    // ajax示例
+    @RequestMapping(path={"/ajax"},method = RequestMethod.POST)
+    @ResponseBody
+    public String testAjax(String name, int age) {
+        System.out.println(name);
+        System.out.println(age);
+        return CommonUtil.getJSONString(0,"操作成功");
+    }
+
+    @RequestMapping(path = "/error", method = RequestMethod.GET)
+    public String getError(){
+        return "error/500";
+    }
 }
